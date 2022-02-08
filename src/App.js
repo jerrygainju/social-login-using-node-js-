@@ -1,23 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+// import React, {useState} from 'react';
+import GoogleLogin from 'react-google-login';
+// import { GoogleLogout } from 'react-google-login';
+import axios from 'axios';
+
+
+const responseGoogle = (response) => {
+  console.log(response);
+  axios({
+    method: 'POST',
+    url: 'http://localhost:8000/gmaillogin',
+    data: {tokenId: response.tokenId}
+  }).then(response => {
+    console.log(response);
+  })
+}
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className = "App">
+      <div className = "col-md-6 offset-md-3 text-center">
+        <h1>Gmail login</h1>
+        <GoogleLogin
+          clientId="797731517730-b5rnb8ia0hfoif80ltfbvg0g1j89ml2v.apps.googleusercontent.com"
+          buttonText="Sign in with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
+        />
+        {/* <GoogleLogout
+          clientId="797731517730-9ec8i1m3q28pgmotlos9vbpj43baomg1.apps.googleusercontent.com"
+          buttonText="Logout"
+          onLogoutSuccess={logout}
         >
-          Learn React
-        </a>
-      </header>
+        </GoogleLogout> */}
+      </div>
     </div>
   );
 }
