@@ -13,7 +13,7 @@ module.exports =  (req,res) => {
         .then(response => {
             const { email_verified, name, email } = response.payload;
             console.log(response.payload)
-            if (email_verified) {
+            if (email_verified ) {
                 User.findOne({ email }).exec((err, user) => {
                     if (err) {
                         return res.status(400).json({
@@ -29,12 +29,11 @@ module.exports =  (req,res) => {
                                 user: { _id, name, email, }
                             })
                         } else {
-                            //let password = email+'secretkey';
                             let newUser = new User({ name, email });
                             newUser.save((err, data) => {
                                 if (err) {
                                     return res.status(400).json({
-                                        error: "something is wrong"
+                                        error: "error"
                                     })
                                 }
                                 const token = jwt.sign({ user_id: data._id }, 'secretkey', { expiresIn: '30s' })

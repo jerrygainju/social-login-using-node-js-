@@ -8,8 +8,13 @@ require('dotenv').config();
 const gmailSign = require('./controller/gmailSignin');
 const registerPost = require('./controller/register');
 const login = require('./controller/login');
+const profile = require('./controller/profile');
+const facebookLogin = require('./controller/facebookLogin');
 
-// using packages
+//middleware
+const verifyToken = require('./middleware/tokenAuth');
+
+// using packages 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -33,6 +38,9 @@ app.get('/', (req,res) =>{
 app.post('/gmaillogin',gmailSign);
 app.post('/register',registerPost);
 app.post('/login', login);
+app.get('/profile',verifyToken, profile);
+app.post('/facebooklogin', facebookLogin);
+
    
 
 //setting ports
